@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_09_063052) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_10_145055) do
   create_table "member_cards", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "card_number", null: false
@@ -48,10 +48,24 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_09_063052) do
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email", default: "", null: false
-    t.string "password_digest", default: "", null: false
+    t.string "password", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "user_type", default: "registered", null: false
+    t.string "unique_code"
+    t.string "phone_number"
+    t.boolean "two_factor_enabled", default: false, null: false
+    t.string "two_factor_secret"
+    t.integer "coupon_balance", default: 0, null: false
+    t.string "membership_number"
+    t.string "furigana", default: "", null: false
+    t.date "birth_date", default: "1900-01-01", null: false
+    t.integer "gender", limit: 4, default: 0, null: false
+    t.string "password_digest"
+    t.string "email_confirm_token"
+    t.datetime "confirmed_at", precision: nil
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["unique_code"], name: "index_users_on_unique_code", unique: true
   end
 
   add_foreign_key "member_cards", "users"
